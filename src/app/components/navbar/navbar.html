@@ -1,0 +1,29 @@
+<nav class="bg-blue-900 text-white p-4">
+  <div class="flex justify-between items-center">
+    <!-- Logo / Banner -->
+    <div class="text-xl font-bold">
+      ✨ Neverending Journeys
+    </div>
+
+    <!-- Hamburger button (mobile only) -->
+    <button class="md:hidden" (click)="toggle()">
+      ☰
+    </button>
+
+    <!-- Desktop nav links -->
+    <div class="hidden md:flex space-x-6">
+      <a routerLink="" class="hover:text-yellow-300">Home</a>
+      <a routerLink="about" class="hover:text-yellow-300">About</a>
+      <a routerLink="contact" class="hover:text-yellow-300">Contact</a>
+    </div>
+  </div>
+
+  <!-- Mobile nav links using @if -->
+  @if(isOpen()) {
+    <div class="md:hidden mt-4 space-y-2">
+        <a routerLink="" class="block">Home</a>
+        <a routerLink="about" class="block">About</a>
+        <a routerLink="contact" class="block">Contact</a>
+    </div>
+  }
+</nav>
