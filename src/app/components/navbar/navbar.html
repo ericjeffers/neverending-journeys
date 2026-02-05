@@ -1,29 +1,35 @@
-<nav class="bg-blue-900 text-white p-4">
-  <div class="flex justify-between items-center">
-    <!-- Logo / Banner -->
-    <div class="text-xl font-bold">
-      ✨ Neverending Journeys
+<nav class="text-white shadow-md h-20 md:h-32" style="background-color: #0A1727;">
+  <div class="max-w-7xl mx-auto flex justify-between items-center h-full px-4">
+    
+    <!-- Logo + Site Title -->
+    <div class="flex items-center space-x-2 h-full">
+      <img 
+        src="assets/logo.jpg" 
+        alt="Neverending Journeys Logo" 
+        class="h-full w-auto"
+      >
+      <span class="text-lg md:text-xl font-bold tracking-wide">✨ Neverending Journeys</span>
     </div>
 
-    <!-- Hamburger button (mobile only) -->
-    <button class="md:hidden" (click)="toggle()">
+    <!-- Hamburger (mobile only) -->
+    <button class="md:hidden text-2xl" (click)="toggle()">
       ☰
     </button>
 
     <!-- Desktop nav links -->
-    <div class="hidden md:flex space-x-6">
-      <a routerLink="" class="hover:text-yellow-300">Home</a>
-      <a routerLink="about" class="hover:text-yellow-300">About</a>
-      <a routerLink="contact" class="hover:text-yellow-300">Contact</a>
+    <div class="hidden md:flex space-x-6 text-base">
+      <a [routerLink]="'/'" class="hover:text-yellow-300 transition-colors duration-300">Home</a>
+      <a [routerLink]="'/about'" class="hover:text-yellow-300 transition-colors duration-300">About</a>
+      <a [routerLink]="'/contact'" class="hover:text-yellow-300 transition-colors duration-300">Contact</a>
     </div>
   </div>
 
-  <!-- Mobile nav links using @if -->
+  <!-- Mobile nav links -->
   @if(isOpen()) {
-    <div class="md:hidden mt-4 space-y-2">
-        <a routerLink="" class="block">Home</a>
-        <a routerLink="about" class="block">About</a>
-        <a routerLink="contact" class="block">Contact</a>
+    <div class="md:hidden mt-2 space-y-2 text-base px-4">
+      <a [routerLink]="'/'" class="block hover:text-yellow-300 transition-colors duration-300">Home</a>
+      <a [routerLink]="'/about'" class="block hover:text-yellow-300 transition-colors duration-300">About</a>
+      <a [routerLink]="'/contact'" class="block hover:text-yellow-300 transition-colors duration-300">Contact</a>
     </div>
   }
 </nav>
