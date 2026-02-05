@@ -1,15 +1,11 @@
-<nav class="text-white shadow-md h-20 md:h-32" style="background-color: #0A1727;">
+<nav class="text-white shadow-md h-auto md:h-32" style="background-color: #0A1727;">
   <div class="max-w-7xl mx-auto flex justify-between items-center h-full px-4">
     
-    <!-- Logo + Site Title -->
-    <div class="flex items-center space-x-2 h-full">
-      <img 
-        src="assets/logo.jpg" 
-        alt="Neverending Journeys Logo" 
-        class="h-full w-auto"
-      >
-      <span class="text-lg md:text-xl font-bold tracking-wide">✨ Neverending Journeys</span>
-    </div>
+    <!-- Logo + Site Title as Home Link -->
+		<a [routerLink]="'/'" class="flex items-center space-x-2 h-20 md:h-32">
+			<img src="assets/logo.jpg" alt="Neverending Journeys Logo" class="h-20 md:h-32 w-auto">
+			<span class="text-lg md:text-xl font-bold tracking-wide">✨ Neverending Journeys</span>
+		</a>
 
     <!-- Hamburger (mobile only) -->
     <button class="md:hidden text-2xl" (click)="toggle()">
@@ -18,7 +14,6 @@
 
     <!-- Desktop nav links -->
     <div class="hidden md:flex space-x-6 text-base">
-      <a [routerLink]="'/'" class="hover:text-yellow-300 transition-colors duration-300">Home</a>
       <a [routerLink]="'/about'" class="hover:text-yellow-300 transition-colors duration-300">About</a>
       <a [routerLink]="'/contact'" class="hover:text-yellow-300 transition-colors duration-300">Contact</a>
     </div>
@@ -27,7 +22,6 @@
   <!-- Mobile nav links -->
   @if(isOpen()) {
     <div class="md:hidden mt-2 space-y-2 text-base px-4">
-      <a [routerLink]="'/'" class="block hover:text-yellow-300 transition-colors duration-300">Home</a>
       <a [routerLink]="'/about'" class="block hover:text-yellow-300 transition-colors duration-300">About</a>
       <a [routerLink]="'/contact'" class="block hover:text-yellow-300 transition-colors duration-300">Contact</a>
     </div>

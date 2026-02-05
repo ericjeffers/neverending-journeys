@@ -14,5 +14,6 @@ export class Navbar {
 
   toggle() {
     this.isOpen.set(!this.isOpen());
+    console.log("open value:", this.isOpen())
   }
 }
