@@ -16,14 +16,16 @@
     <div class="hidden md:flex space-x-6 text-base">
       <a [routerLink]="'/about'" class="hover:text-yellow-300 transition-colors duration-300">About</a>
       <a [routerLink]="'/contact'" class="hover:text-yellow-300 transition-colors duration-300">Contact</a>
+			<a [routerLink]="'/quote'" class="hover:text-yellow-300 transition-colors duration-300">Get a Quote</a>
     </div>
   </div>
 
   <!-- Mobile nav links -->
   @if(isOpen()) {
-    <div class="md:hidden mt-2 space-y-2 text-base px-4">
+    <div class="md:hidden mt-2 space-y-2 text-base px-4 pb-4 flex flex-col items-end">
       <a [routerLink]="'/about'" class="block hover:text-yellow-300 transition-colors duration-300">About</a>
       <a [routerLink]="'/contact'" class="block hover:text-yellow-300 transition-colors duration-300">Contact</a>
+			<a [routerLink]="'/quote'" class="block hover:text-yellow-300 transition-colors duration-300">Get a Quote</a>
     </div>
   }
 </nav>
