@@ -1,11 +1,11 @@
 <nav class="text-white shadow-md h-auto md:h-32" style="background-color: #0A1727;">
   <div class="max-w-7xl mx-auto flex justify-between items-center h-full px-4">
-    
+
     <!-- Logo + Site Title as Home Link -->
-		<a [routerLink]="'/'" class="flex items-center space-x-2 h-20 md:h-32">
-			<img src="assets/logo.jpg" alt="Neverending Journeys Logo" class="h-20 md:h-32 w-auto">
-			<span class="text-lg md:text-xl font-bold tracking-wide">✨ Neverending Journeys</span>
-		</a>
+    <a [routerLink]="'/'" class="flex items-center space-x-2 h-20 md:h-32">
+      <img src="assets/logo.jpg" alt="Neverending Journeys Logo" class="h-20 md:h-32 w-auto">
+      <span class="text-lg md:text-xl font-bold tracking-wide">✨ Neverending Journeys</span>
+    </a>
 
     <!-- Hamburger (mobile only) -->
     <button class="md:hidden text-2xl" (click)="toggle()">
@@ -13,10 +13,15 @@
     </button>
 
     <!-- Desktop nav links -->
-    <div class="hidden md:flex space-x-6 text-base">
+    <div class="hidden md:flex space-x-6 text-base items-center">
       <a [routerLink]="'/about'" class="hover:text-yellow-300 transition-colors duration-300">About</a>
+      <a [routerLink]="'/blog'" class="hover:text-yellow-300 transition-colors duration-300">Blog</a>
       <a [routerLink]="'/contact'" class="hover:text-yellow-300 transition-colors duration-300">Contact</a>
-			<a [routerLink]="'/quote'" class="hover:text-yellow-300 transition-colors duration-300">Get a Quote</a>
+      <a [routerLink]="'/quote'" class="hover:text-yellow-300 transition-colors duration-300">Get a Quote</a>
+      @if (isLoggedIn()) {
+        <a [routerLink]="'/admin/new-post'" class="bg-yellow-400 text-gray-900 px-3 py-1 rounded font-semibold hover:bg-yellow-300 transition-colors duration-300 text-sm">+ New Post</a>
+        <button (click)="logout()" class="text-gray-400 hover:text-white text-sm transition-colors duration-300">Logout</button>
+      }
     </div>
   </div>
 
@@ -24,8 +29,13 @@
   @if(isOpen()) {
     <div class="md:hidden mt-2 space-y-2 text-base px-4 pb-4 flex flex-col items-end">
       <a [routerLink]="'/about'" class="block hover:text-yellow-300 transition-colors duration-300">About</a>
+      <a [routerLink]="'/blog'" class="block hover:text-yellow-300 transition-colors duration-300">Blog</a>
       <a [routerLink]="'/contact'" class="block hover:text-yellow-300 transition-colors duration-300">Contact</a>
-			<a [routerLink]="'/quote'" class="block hover:text-yellow-300 transition-colors duration-300">Get a Quote</a>
+      <a [routerLink]="'/quote'" class="block hover:text-yellow-300 transition-colors duration-300">Get a Quote</a>
+      @if (isLoggedIn()) {
+        <a [routerLink]="'/admin/new-post'" class="block hover:text-yellow-300 transition-colors duration-300">+ New Post</a>
+        <button (click)="logout()" class="block text-gray-400 hover:text-white transition-colors duration-300">Logout</button>
+      }
     </div>
   }
 </nav>

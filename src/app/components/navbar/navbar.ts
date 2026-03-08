@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { GithubService } from '../../services/github.service';
 
 @Component({
   selector: 'app-navbar',
@@ -12,8 +13,18 @@ import { CommonModule } from '@angular/common';
 export class Navbar {
   isOpen = signal(false);
 
+  constructor(public github: GithubService, private router: Router) {}
+
+  isLoggedIn() {
+    return this.github.isLoggedIn();
+  }
+
   toggle() {
     this.isOpen.set(!this.isOpen());
-    console.log("open value:", this.isOpen())
+  }
+
+  logout() {
+    this.github.logout();
+    this.router.navigate(['/']);
   }
 }
