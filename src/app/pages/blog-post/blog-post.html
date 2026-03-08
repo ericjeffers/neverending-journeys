@@ -9,10 +9,10 @@
   } @else {
     <a routerLink="/blog" class="text-yellow-400 hover:underline text-sm mb-6 inline-block">← Back to Blog</a>
 
-    <div class="w-full rounded-xl overflow-hidden mb-6 max-h-96">
+    <div class="w-full rounded-xl overflow-hidden mb-6">
       <img [src]="post()!.image || defaultImage"
-           [alt]="post()!.title"
-           class="w-full h-full object-cover" />
+          [alt]="post()!.title"
+          class="w-full object-contain" />
     </div>
 
     <h1 class="text-4xl font-bold mb-2 text-white">{{ post()!.title }}</h1>
