@@ -12,8 +12,11 @@ import { GithubService, BlogPost } from '../../services/github.service';
 export class Blog implements OnInit {
   posts = signal<BlogPost[]>([]);
   loading = signal(true);
+  defaultImage: string;
 
-  constructor(private github: GithubService) {}
+  constructor(private github: GithubService) {
+    this.defaultImage = this.github.DEFAULT_IMAGE;
+  }
 
   async ngOnInit() {
     this.posts.set(await this.github.getAllPosts());

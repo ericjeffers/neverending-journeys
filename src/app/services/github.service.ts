@@ -8,6 +8,7 @@ export interface BlogPost {
   date: string;
   excerpt: string;
   content: string;
+  image?: string;
   sha?: string;
 }
 
@@ -15,13 +16,15 @@ export interface BlogPost {
 export class GithubService {
   private readonly REPO = 'ericjeffers/neverending-journeys';
   private readonly POSTS_PATH = 'posts';
+  private readonly IMAGES_PATH = 'assets/blog-images';
   private readonly API_BASE = 'https://api.github.com';
+  private readonly RAW_BASE = 'https://raw.githubusercontent.com';
+  readonly DEFAULT_IMAGE = `https://raw.githubusercontent.com/ericjeffers/neverending-journeys/main/assets/blog-images/default.jpg`;
 
   isLoggedIn = signal(false);
   private token = signal('');
 
   constructor(private http: HttpClient) {
-    // Restore session from sessionStorage
     const saved = sessionStorage.getItem('gh_token');
     if (saved) {
       this.token.set(saved);
@@ -36,7 +39,7 @@ export class GithubService {
     });
     return firstValueFrom(
       this.http.get<any>(`${this.API_BASE}/user`, { headers })
-    ).then((user) => {
+    ).then(() => {
       this.token.set(token);
       this.isLoggedIn.set(true);
       sessionStorage.setItem('gh_token', token);
@@ -91,11 +94,33 @@ export class GithubService {
     }
   }
 
-  async createPost(title: string, content: string, excerpt: string): Promise<boolean> {
+  async uploadImage(file: File): Promise<string | null> {
+    try {
+      const base64 = await this.fileToBase64(file);
+      const timestamp = Date.now();
+      const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '-');
+      const filename = `${timestamp}-${safeName}`;
+
+      await firstValueFrom(
+        this.http.put(
+          `${this.API_BASE}/repos/${this.REPO}/contents/${this.IMAGES_PATH}/${filename}`,
+          { message: `Upload blog image: ${filename}`, content: base64 },
+          { headers: this.headers }
+        )
+      );
+
+      return `${this.RAW_BASE}/${this.REPO}/main/${this.IMAGES_PATH}/${filename}`;
+    } catch {
+      return null;
+    }
+  }
+
+  async createPost(title: string, content: string, excerpt: string, imageUrl: string): Promise<boolean> {
     const date = new Date().toISOString().split('T')[0];
     const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
     const filename = `${date}-${slug}.md`;
-    const body = `---\ntitle: ${title}\ndate: ${date}\nexcerpt: ${excerpt}\n---\n\n${content}`;
+    const imageLine = imageUrl ? `\nimage: ${imageUrl}` : '';
+    const body = `---\ntitle: ${title}\ndate: ${date}\nexcerpt: ${excerpt}${imageLine}\n---\n\n${content}`;
     const encoded = btoa(unescape(encodeURIComponent(body)));
 
     try {
@@ -112,13 +137,32 @@ export class GithubService {
     }
   }
 
+  private fileToBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = (reader.result as string).split(',')[1];
+        resolve(result);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
   private parseMarkdown(raw: string, slug: string): BlogPost {
     const fmMatch = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
     if (fmMatch) {
       const fm = fmMatch[1];
       const content = fmMatch[2].trim();
       const get = (key: string) => fm.match(new RegExp(`^${key}:\\s*(.+)$`, 'm'))?.[1]?.trim() ?? '';
-      return { slug, title: get('title'), date: get('date'), excerpt: get('excerpt'), content };
+      return {
+        slug,
+        title: get('title'),
+        date: get('date'),
+        excerpt: get('excerpt'),
+        image: get('image') || undefined,
+        content,
+      };
     }
     return { slug, title: slug, date: '', excerpt: '', content: raw };
   }

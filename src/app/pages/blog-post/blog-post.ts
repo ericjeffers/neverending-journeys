@@ -12,8 +12,11 @@ import { GithubService, BlogPost as Post } from '../../services/github.service';
 export class BlogPost implements OnInit {
   post = signal<Post | null>(null);
   loading = signal(true);
+  defaultImage: string;
 
-  constructor(private route: ActivatedRoute, private github: GithubService) {}
+  constructor(private route: ActivatedRoute, private github: GithubService) {
+    this.defaultImage = this.github.DEFAULT_IMAGE;
+  }
 
   async ngOnInit() {
     const slug = this.route.snapshot.paramMap.get('slug') ?? '';
